@@ -1,13 +1,14 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tuck N Togs - Custom Gifting</title>
+    <title>Tuck N Togs - Premium Custom Gifting</title>
+    <!-- Tailwind CSS for modern responsive styling -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for beautiful SVG-based vector icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <!-- Cashfree JS SDK -->
+    <!-- Cashfree SDK for processing secure seamless payments -->
     <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
     
     <style>
@@ -33,7 +34,7 @@
         .loader {
             border: 3px solid #f3f3f3;
             border-radius: 50%;
-            border-top: 3px solid #3b82f6;
+            border-top: 3px solid #2563eb;
             width: 24px;
             height: 24px;
             -webkit-animation: spin 1s linear infinite;
@@ -42,12 +43,12 @@
 
         #toast {
             visibility: hidden;
-            min-width: 250px;
-            margin-left: -125px;
+            min-width: 280px;
+            margin-left: -140px;
             background-color: #333;
             color: #fff;
             text-align: center;
-            border-radius: 8px;
+            border-radius: 12px;
             padding: 16px;
             position: fixed;
             z-index: 100;
@@ -56,6 +57,7 @@
             font-size: 15px;
             opacity: 0;
             transition: opacity 0.3s, bottom 0.3s, visibility 0.3s;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         }
 
         #toast.show {
@@ -74,15 +76,14 @@
         .hide-scroll::-webkit-scrollbar { display: none; }
         .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* Custom Tabs */
         .tab-btn.active {
             border-bottom-width: 2px;
-            border-color: #3b82f6;
+            border-color: #2563eb;
             color: #2563eb;
         }
     </style>
 </head>
-<body class="text-slate-800 h-screen flex flex-col">
+<body class="text-slate-800 min-h-screen flex flex-col relative">
 
     <nav class="glass-effect sticky top-0 z-40 px-4 py-4 md:px-8 shadow-sm">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
@@ -93,37 +94,37 @@
                 <span class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-800 to-slate-600" id="brand-name">Tuck N Togs</span>
             </div>
             
-            <div class="flex gap-4">
+            <div class="flex items-center gap-4">
                 <button onclick="switchView('store')" id="nav-store" class="text-blue-600 bg-blue-50 font-medium px-4 py-2 rounded-lg transition-colors">Storefront</button>
                 <button onclick="switchView('dashboard')" id="nav-dashboard" class="text-slate-500 font-medium px-4 py-2 rounded-lg hover:bg-slate-100 transition-colors hidden" >Dashboard <span id="orderBadge" class="ml-1 bg-red-500 text-white text-xs px-2 py-0.5 rounded-full hidden">0</span></button>
                 
                 <!-- Customer Login Button -->
-                <button onclick="openLoginModal()" id="nav-customer-login" class="text-white bg-slate-900 font-medium px-4 py-2 rounded-lg hover:bg-slate-800 transition-colors">Login / Signup</button>
-                <div id="nav-customer-profile" class="hidden items-center gap-2 text-slate-700 font-medium px-4 py-2 bg-slate-100 rounded-lg">
-                    <i class="fa-solid fa-user-circle text-xl"></i> <span id="customer-phone-display"></span>
+                <button onclick="openLoginModal()" id="nav-customer-login" class="text-white bg-slate-900 font-medium px-4 py-2 rounded-lg hover:bg-slate-800 transition-colors text-sm">Login</button>
+                <div id="nav-customer-profile" class="hidden items-center gap-2 text-slate-700 font-medium px-4 py-2 bg-slate-100 rounded-lg text-sm">
+                    <i class="fa-solid fa-user-circle text-lg"></i> <span id="customer-phone-display" class="hidden sm:inline"></span>
                     <button onclick="logoutCustomer()" class="ml-2 text-red-500 hover:text-red-700 text-sm"><i class="fa-solid fa-right-from-bracket"></i></button>
                 </div>
 
-                <button onclick="openAdminPinModal()" id="nav-admin-login" class="text-slate-500 font-medium px-4 py-2 rounded-lg hover:bg-slate-100 transition-colors border border-slate-200">Admin Login</button>
+                <button onclick="openAdminPinModal()" id="nav-admin-login" class="text-slate-500 font-medium px-3 py-2 rounded-lg hover:bg-slate-100 transition-colors border border-slate-200 text-sm">Admin</button>
             </div>
         </div>
     </nav>
 
-    <main id="view-store" class="flex-1 overflow-y-auto w-full max-w-7xl mx-auto p-4 md:p-8">
+    <main id="view-store" class="flex-1 w-full max-w-7xl mx-auto p-4 md:p-8 pb-24">
         
         <!-- Hero Section -->
         <div class="bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl p-8 md:p-12 text-white mb-12 shadow-xl relative overflow-hidden">
-            <div class="relative z-10 max-w-2xl">
+            <div class="relative z-10 max-w-2xl text-left">
                 <h1 class="text-4xl md:text-5xl font-bold mb-4 leading-tight">Premium Custom Gifting</h1>
                 <p class="text-lg text-slate-300 mb-8">Personalized gifts for every occasion. Choose a product, upload your memories, and we'll craft it to perfection.</p>
                 <a href="#products" class="bg-blue-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-blue-500 transition shadow-lg inline-block">Explore Collection</a>
             </div>
-            <i class="fa-solid fa-gift absolute text-[20rem] text-white opacity-5 -bottom-10 -right-10"></i>
+            <i class="fa-solid fa-gift absolute text-[18rem] text-white opacity-5 -bottom-10 -right-10"></i>
         </div>
 
         <!-- Categories & Products Section -->
-        <div class="flex flex-col mb-6 border-b pb-4 gap-4 sticky top-0 bg-[#f8fafc] z-30 pt-2">
-            <h2 id="products" class="text-2xl font-bold text-slate-800">Our Collection</h2>
+        <div class="flex flex-col mb-6 border-b pb-4 gap-4 sticky top-16 bg-[#f8fafc] z-30 pt-2">
+            <h2 id="products" class="text-2xl font-bold text-slate-800 text-left">Our Collection</h2>
             
             <!-- Dynamic Categories -->
             <div class="flex gap-2 overflow-x-auto hide-scroll w-full pb-2" id="categoryFilters">
@@ -137,8 +138,8 @@
         
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12" id="productList">
             <div class="col-span-full text-center text-slate-500 py-12 flex flex-col items-center">
-                <div class="loader mb-4 border-slate-300 border-top-slate-800"></div>
-                Loading latest products...
+                <div class="loader mb-4"></div>
+                Initializing Tuck N Togs...
             </div>
         </div>
 
@@ -149,14 +150,14 @@
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden relative">
             
             <div class="p-5 border-b flex justify-between items-center bg-slate-50">
-                <h3 class="text-xl font-bold text-slate-800" id="modalTitle">Customize Your Order</h3>
+                <h3 class="text-xl font-bold text-slate-800 text-left" id="modalTitle">Customize Your Order</h3>
                 <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600 p-2 rounded-full hover:bg-slate-200 transition">
                     <i class="fa-solid fa-xmark text-xl"></i>
                 </button>
             </div>
 
-            <div class="p-6 overflow-y-auto flex-1 flex flex-col md:flex-row gap-8">
-                <!-- Left: Product Summary -->
+            <div class="p-6 overflow-y-auto flex-1 flex flex-col md:flex-row gap-8 text-left">
+                <!-- Left Side: Product Summary -->
                 <div class="w-full md:w-1/3 space-y-4">
                     <img id="modalProductImage" src="" alt="Product" class="w-full h-48 md:h-64 object-cover rounded-xl shadow-sm border border-slate-100">
                     <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
@@ -166,7 +167,7 @@
                     </div>
                 </div>
 
-                <!-- Right: Order Form -->
+                <!-- Right Side: Order Form -->
                 <div class="w-full md:w-2/3">
                     <form id="orderForm" class="space-y-6">
                         <input type="hidden" id="selectedProductId">
@@ -190,7 +191,7 @@
                             </div>
                         </div>
 
-                        <!-- Detailed Address Fields -->
+                        <!-- Address Fields -->
                         <div class="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-100">
                             <input type="text" id="addrLine1" required placeholder="Address Line 1 (House No, Building, Street)*" class="w-full border-slate-300 rounded-lg shadow-sm p-2.5 border bg-white">
                             <input type="text" id="addrLine2" placeholder="Address Line 2 (Area, Landmark) - Optional" class="w-full border-slate-300 rounded-lg shadow-sm p-2.5 border bg-white">
@@ -202,18 +203,18 @@
                         </div>
                         
                         <div class="space-y-1" id="dynamicTextRequirement">
-                            <label class="block text-sm font-medium text-slate-700">Custom Text / Special Instructions <span id="textRequiredStar" class="text-red-500 hidden">*</span></label>
-                            <textarea id="specialInstructions" rows="2" class="w-full border-slate-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2.5 border bg-slate-50" placeholder="Enter text to be printed, or any special notes..."></textarea>
+                            <label class="block text-sm font-medium text-slate-700">Custom Text / Instructions <span id="textRequiredStar" class="text-red-500 hidden">*</span></label>
+                            <textarea id="specialInstructions" rows="2" class="w-full border-slate-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2.5 border bg-slate-50" placeholder="Enter custom message to be printed, or instructions..."></textarea>
                         </div>
 
                         <hr class="border-slate-200">
                         
-                        <!-- Secure Payment Section -->
-                        <h4 class="font-semibold text-slate-800">Secure Payment</h4>
+                        <!-- Secure Payment Gateway Indicator -->
+                        <h4 class="font-semibold text-slate-800">Secure Payment Gateway</h4>
                         <div class="bg-blue-50 p-4 rounded-xl border border-blue-100 flex items-center justify-between">
                             <div>
-                                <p class="font-medium text-blue-900">Online Payment</p>
-                                <p class="text-xs text-blue-700">Pay securely via UPI, Cards, or NetBanking</p>
+                                <p class="font-medium text-blue-950">Integrated Cashfree PG</p>
+                                <p class="text-xs text-blue-700">Pay automatically via UPI, NetBanking, Wallet, or Debit Card</p>
                             </div>
                             <div class="flex gap-2 text-2xl text-slate-600">
                                 <i class="fa-brands fa-google-pay text-green-600"></i>
@@ -230,21 +231,21 @@
             <div class="p-4 border-t bg-slate-50 flex justify-end gap-3 rounded-b-2xl">
                 <button onclick="closeModal()" class="px-5 py-2.5 border border-slate-300 rounded-xl text-slate-700 hover:bg-slate-100 font-medium transition">Cancel</button>
                 <button onclick="submitOrder()" id="submitOrderBtn" class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-medium shadow-md transition flex items-center gap-2">
-                    <span>Pay & Place Order</span>
+                    <span id="submitOrderBtnText">Pay & Place Order</span>
                     <div id="submitLoader" class="loader hidden" style="width: 18px; height: 18px; border-width: 2px; border-top-color: white;"></div>
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Login Modal for Customers -->
+    <!-- Customer Login Modal -->
     <div id="loginModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[70] hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden relative p-6">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden relative p-6 text-left">
             <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 p-2 rounded-full hover:bg-slate-100 transition">
                 <i class="fa-solid fa-xmark text-xl"></i>
             </button>
             <h3 class="text-2xl font-bold text-slate-800 mb-2">Welcome Back</h3>
-            <p class="text-slate-500 text-sm mb-6">Login or Signup using your mobile number.</p>
+            <p class="text-slate-500 text-sm mb-6">Access your storefront account with your mobile number.</p>
 
             <div id="phoneSection" class="space-y-4">
                 <div>
@@ -254,68 +255,1190 @@
                         <input type="tel" id="loginPhone" placeholder="10-digit number" class="flex-1 block w-full border-slate-300 rounded-none rounded-r-lg shadow-sm p-2.5 border bg-white focus:ring-blue-500 focus:border-blue-500">
                     </div>
                 </div>
+                <!-- Firebase Invisible Captcha Container -->
                 <div id="recaptcha-container"></div>
-                <button onclick="sendOTP()" id="btnSendOtp" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-medium py-2.5 rounded-xl transition-colors shadow-sm">Send OTP</button>
+                <button onclick="sendOTP()" id="btnSendOtp" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-medium py-2.5 rounded-xl transition-colors shadow-sm">Send Verification OTP</button>
             </div>
 
             <div id="otpSection" class="space-y-4 hidden mt-4">
                 <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1">Enter OTP sent to your phone</label>
-                    <input type="number" id="loginOtp" placeholder="6-digit OTP" class="w-full border-slate-300 rounded-lg shadow-sm p-2.5 border bg-white focus:ring-blue-500 focus:border-blue-500 text-center tracking-widest text-lg font-bold">
+                    <label class="block text-sm font-medium text-slate-700 mb-1">Enter 6-digit OTP</label>
+                    <input type="number" id="loginOtp" placeholder="••••••" class="w-full border-slate-300 rounded-lg shadow-sm p-2.5 border bg-white focus:ring-blue-500 focus:border-blue-500 text-center tracking-widest text-lg font-bold">
                 </div>
-                <button onclick="verifyOTP()" id="btnVerifyOtp" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 rounded-xl transition-colors shadow-sm">Verify & Login</button>
-                <button onclick="resetLogin()" class="w-full text-sm text-slate-500 hover:text-slate-700">Change Phone Number</button>
+                <button onclick="verifyOTP()" id="btnVerifyOtp" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 rounded-xl transition-colors shadow-sm">Verify & Access</button>
+                <button onclick="resetLogin()" class="w-full text-sm text-center text-slate-500 hover:text-slate-700 block">Change Mobile Number</button>
             </div>
         </div>
     </div>
 
-    <!-- Dashboard Panel -->
-    <main id="view-dashboard" class="flex-1 overflow-y-auto w-full bg-slate-100 p-4 md:p-8 hidden">
-        
+    <!-- Admin Entry PIN Modal -->
+    <div id="adminPinModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[80] hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6 relative text-left">
+            <button onclick="closeAdminPinModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 p-2 rounded-full hover:bg-slate-100 transition">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+            <h3 class="text-xl font-bold text-slate-800 mb-2">Admin Security</h3>
+            <p class="text-slate-500 text-sm mb-4">Please enter your 4-digit security PIN to access product and order management.</p>
+            <div class="space-y-4">
+                <input type="password" id="adminPinInput" maxlength="4" placeholder="••••" class="w-full text-center text-2xl tracking-widest font-bold border border-slate-300 rounded-xl p-3 bg-slate-50 focus:ring-blue-500 focus:border-blue-500">
+                <button onclick="submitAdminPin()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-medium py-3 rounded-xl shadow-sm transition">Verify Admin Status</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Management Console -->
+    <main id="view-dashboard" class="flex-1 w-full bg-slate-100 p-4 md:p-8 hidden">
         <div class="max-w-7xl mx-auto">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4 text-left">
                 <div>
-                    <h2 class="text-3xl font-bold text-slate-800">Store Management</h2>
-                    <p class="text-slate-500 mt-1">Manage orders, add products, and organize categories.</p>
+                    <h2 class="text-3xl font-bold text-slate-800">Store Management Dashboard</h2>
+                    <p class="text-slate-500 mt-1">Configure your product listings, manage customer customization files, and update orders.</p>
                 </div>
-                <div class="flex gap-2">
-                    <button onclick="logoutAdmin()" class="bg-white border border-slate-300 text-slate-700 px-4 py-2 rounded-lg hover:bg-slate-50 transition shadow-sm font-medium">
-                        <i class="fa-solid fa-arrow-right-from-bracket mr-1"></i> Logout
-                    </button>
-                </div>
+                <button onclick="logoutAdmin()" class="bg-white border border-slate-300 text-slate-700 px-4 py-2 rounded-lg hover:bg-slate-50 transition shadow-sm font-medium">
+                    <i class="fa-solid fa-arrow-right-from-bracket mr-1"></i> Exit Dashboard
+                </button>
             </div>
 
-            <!-- Dashboard Tabs -->
+            <!-- Dashboard Navigation Tabs -->
             <div class="flex border-b border-slate-200 mb-6 gap-6">
-                <button onclick="switchAdminTab('orders')" id="tab-orders" class="tab-btn active pb-3 font-medium text-slate-600 hover:text-blue-600 transition">Orders</button>
-                <button onclick="switchAdminTab('products')" id="tab-products" class="tab-btn pb-3 font-medium text-slate-600 hover:text-blue-600 transition">Manage Products</button>
-                <button onclick="switchAdminTab('categories')" id="tab-categories" class="tab-btn pb-3 font-medium text-slate-600 hover:text-blue-600 transition">Categories</button>
+                <button onclick="switchAdminTab('orders')" id="tab-orders" class="tab-btn active pb-3 font-medium text-slate-600 hover:text-blue-600 transition">Customer Orders</button>
+                <button onclick="switchAdminTab('products')" id="tab-products" class="tab-btn pb-3 font-medium text-slate-600 hover:text-blue-600 transition">Manage Catalog</button>
+                <button onclick="switchAdminTab('categories')" id="tab-categories" class="tab-btn pb-3 font-medium text-slate-600 hover:text-blue-600 transition">Manage Categories</button>
             </div>
 
-            <!-- TAB CONTENT: ORDERS -->
+            <!-- TAB CONTENT: LIVE ORDERS -->
             <div id="content-orders" class="block space-y-6">
-                <!-- Stats Row -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Operational Analytics Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
                     <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex items-center gap-4">
                         <div class="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600 text-xl border border-blue-100"><i class="fa-solid fa-box"></i></div>
-                        <div><p class="text-sm text-slate-500 font-medium">Total Orders</p><p class="text-2xl font-bold text-slate-800" id="statTotal">0</p></div>
+                        <div><p class="text-sm text-slate-500 font-medium">Total Received</p><p class="text-2xl font-bold text-slate-800" id="statTotal">0</p></div>
                     </div>
                     <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex items-center gap-4">
                         <div class="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center text-orange-600 text-xl border border-orange-100"><i class="fa-solid fa-clock"></i></div>
-                        <div><p class="text-sm text-slate-500 font-medium">Pending</p><p class="text-2xl font-bold text-slate-800" id="statPending">0</p></div>
+                        <div><p class="text-sm text-slate-500 font-medium">Pending Crafting</p><p class="text-2xl font-bold text-slate-800" id="statPending">0</p></div>
                     </div>
                     <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex items-center gap-4">
                         <div class="w-12 h-12 rounded-xl bg-green-50 flex items-center justify-center text-green-600 text-xl border border-green-100"><i class="fa-solid fa-check-double"></i></div>
-                        <div><p class="text-sm text-slate-500 font-medium">Completed</p><p class="text-2xl font-bold text-slate-800" id="statCompleted">0</p></div>
+                        <div><p class="text-sm text-slate-500 font-medium">Dispatched & Completed</p><p class="text-2xl font-bold text-slate-800" id="statCompleted">0</p></div>
                     </div>
                 </div>
 
-                <!-- Orders Table -->
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-                    <div class="p-5 border-b border-slate-100 bg-slate-50/80 flex justify-between items-center">
-                        <h3 class="text-lg font-bold text-slate-800"><i class="fa-solid fa-list-ul mr-2 text-slate-400"></i> Recent Orders</h3>
+                <!-- Orders Datatable -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden text-left">
+                    <div class="p-5 border-b border-slate-100 bg-slate-50/80">
+                        <h3 class="text-lg font-bold text-slate-800"><i class="fa-solid fa-list-ul mr-2 text-slate-400"></i> Active Customer Submissions</h3>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse">
                             <thead>
-                                <tr class="bg-slate-50 text-slate-500 text-sm uppercase track
+                                <tr class="bg-slate-50 text-slate-500 text-sm uppercase tracking-wider border-b border-slate-200">
+                                    <th class="p-4 font-medium">Order Item</th>
+                                    <th class="p-4 font-medium">Customer Info & Route</th>
+                                    <th class="p-4 font-medium">Payment Status</th>
+                                    <th class="p-4 font-medium">Customization Assets</th>
+                                    <th class="p-4 font-medium">Order Status</th>
+                                    <th class="p-4 font-medium text-right">Options</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ordersTableBody" class="divide-y divide-slate-100 text-sm">
+                                <tr><td colspan="6" class="p-8 text-center text-slate-500"><div class="loader mx-auto mb-2"></div>Accessing live secure orders stream...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB CONTENT: PRODUCT MANAGEMENT -->
+            <div id="content-products" class="hidden space-y-6">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden text-left">
+                    <div class="p-5 border-b border-slate-100 bg-slate-50/80">
+                        <h3 class="text-lg font-bold text-slate-800">Add New Gift Item</h3>
+                    </div>
+                    <div class="p-6">
+                        <form id="addProductForm" class="space-y-5">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-1">Product Name <span class="text-red-500">*</span></label>
+                                    <input type="text" id="addProdName" required class="w-full border-slate-300 rounded-lg p-2.5 border bg-slate-50">
+                                </div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-slate-700 mb-1">Selling Price (INR) <span class="text-red-500">*</span></label>
+                                        <input type="number" id="addProdPrice" step="0.01" required class="w-full border-slate-300 rounded-lg p-2.5 border bg-slate-50">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-slate-700 mb-1">Category Route <span class="text-red-500">*</span></label>
+                                        <select id="addProdCategory" required class="w-full border-slate-300 rounded-lg p-2.5 border bg-slate-50">
+                                            <!-- Managed dynamically -->
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">Product Description <span class="text-red-500">*</span></label>
+                                <textarea id="addProdDesc" rows="2" required class="w-full border-slate-300 rounded-lg p-2.5 border bg-slate-50"></textarea>
+                            </div>
+
+                            <div class="bg-blue-50 p-4 rounded-xl border border-blue-100">
+                                <h4 class="font-semibold text-blue-800 mb-3"><i class="fa-solid fa-sliders mr-2"></i>Configure Customization Rules</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-blue-950 mb-1">Number of Customer Image Uploads required</label>
+                                        <input type="number" id="addProdReqPhotos" min="0" max="10" value="1" class="w-full border-blue-200 rounded-lg p-2 border bg-white">
+                                        <p class="text-xs text-blue-600 mt-1">Set to 0 if this item requires no design graphics.</p>
+                                    </div>
+                                    <div class="flex items-center gap-2 mt-6">
+                                        <input type="checkbox" id="addProdReqText" class="w-5 h-5 rounded border-blue-300 text-blue-600 focus:ring-blue-500">
+                                        <label for="addProdReqText" class="text-sm font-medium text-blue-950">Require custom typography / text field engraving</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">Product Display Image <span class="text-red-500">*</span></label>
+                                <input type="file" id="addProdImage" accept="image/*" required class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                                <input type="hidden" id="addProdImageBase64">
+                                <div id="addProdImagePreview" class="mt-2 hidden w-32 h-32 rounded-lg bg-cover bg-center border border-slate-200"></div>
+                            </div>
+
+                            <div class="flex justify-end pt-2">
+                                <button type="button" onclick="submitNewProduct()" id="saveProdBtn" class="bg-slate-900 hover:bg-slate-800 text-white px-6 py-2.5 rounded-lg font-medium transition flex items-center gap-2">
+                                    <i class="fa-solid fa-plus"></i> Save & Append to Catalog
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Live Catalog Manager -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden text-left">
+                    <div class="p-5 border-b border-slate-100 bg-slate-50/80">
+                        <h3 class="text-lg font-bold text-slate-800">Current Catalog Listings</h3>
+                    </div>
+                    <div class="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="adminProductList">
+                         <!-- Loaded via JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB CONTENT: CATEGORIES MANAGEMENT -->
+            <div id="content-categories" class="hidden space-y-6">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden text-left">
+                    <div class="p-5 border-b border-slate-100 bg-slate-50/80">
+                        <h3 class="text-lg font-bold text-slate-800">Configure Catalog Categories</h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex gap-4 mb-6">
+                            <input type="text" id="newCategoryName" placeholder="New Category Name (e.g., Neon Signs)" class="flex-1 border-slate-300 rounded-lg p-2.5 border bg-slate-50">
+                            <button onclick="addCategory()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-lg font-medium transition">Create Category</button>
+                        </div>
+
+                        <div class="border rounded-xl overflow-hidden">
+                            <ul id="adminCategoryList" class="divide-y divide-slate-100">
+                                <!-- Loaded via JS -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Custom Dialog: Confirmation Warning Box -->
+    <div id="customConfirmModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 relative text-left">
+            <div class="w-12 h-12 bg-red-50 text-red-600 rounded-full flex items-center justify-center text-xl mb-4">
+                <i class="fa-solid fa-circle-exclamation"></i>
+            </div>
+            <h3 class="text-xl font-bold text-slate-800 mb-2" id="confirmTitle">Confirm Action?</h3>
+            <p class="text-slate-500 mb-6" id="confirmMessage">This action cannot be undone.</p>
+            <div class="flex justify-end gap-3">
+                <button id="confirmCancelBtn" class="px-4 py-2 border border-slate-300 rounded-lg text-slate-700 hover:bg-slate-100 font-medium transition">Cancel</button>
+                <button id="confirmProceedBtn" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium shadow-sm transition">Proceed Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Viewer Modal for Dashboard -->
+    <div id="imageViewerModal" class="fixed inset-0 bg-black/95 z-[90] hidden flex flex-col items-center justify-center p-4">
+        <div class="absolute top-4 right-4 flex gap-4">
+            <button onclick="downloadCurrentImage()" class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg font-medium transition flex items-center gap-2">
+                <i class="fa-solid fa-download"></i> Download Image
+            </button>
+            <button onclick="closeImageViewer()" class="text-white hover:text-slate-300 p-2 bg-slate-800 rounded-lg">
+                <i class="fa-solid fa-xmark text-xl w-6"></i>
+            </button>
+        </div>
+        
+        <div class="w-full max-w-5xl flex items-center justify-between gap-4 h-full py-20">
+            <button onclick="prevImage()" class="text-white hover:text-blue-400 text-4xl p-4"><i class="fa-solid fa-chevron-left"></i></button>
+            <img id="fullSizeImage" src="" class="max-w-full max-h-[80vh] object-contain rounded shadow-2xl">
+            <button onclick="nextImage()" class="text-white hover:text-blue-400 text-4xl p-4"><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+        <div id="imageCounter" class="absolute bottom-6 text-white font-medium bg-black/50 px-4 py-1 rounded-full">1 / 1</div>
+    </div>
+
+    <!-- Integrated System Diagnostics Alert Bar -->
+    <footer class="fixed bottom-0 left-0 right-0 bg-slate-900 border-t border-slate-800 px-4 py-3 z-40 text-left">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-2 md:gap-4 text-xs font-mono text-slate-400">
+            <div class="flex items-center gap-2">
+                <div class="w-2.5 h-2.5 rounded-full bg-yellow-500 animate-pulse" id="diagStatusIndicator"></div>
+                <span class="font-bold text-slate-200" id="diagStatusText">System Status: Checking Cloud Handshake...</span>
+            </div>
+            <div class="flex gap-4">
+                <span>Database: <strong id="diagDbStatus" class="text-yellow-500">Checking...</strong></span>
+                <span>Auth: <strong id="diagAuthStatus" class="text-yellow-500">Checking...</strong></span>
+                <span>Payment Gateway: <strong id="diagPaymentStatus" class="text-yellow-500">Checking...</strong></span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast UI System -->
+    <div id="toast" class="success">Initializing...</div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, RecaptchaVerifier, signInWithPhoneNumber, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, getDocs, updateDoc, doc, serverTimestamp, onSnapshot, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // =========================================================
+        // LIVE SECURED GOOGLE FIREBASE CONFIGURATION
+        // =========================================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyCw8hX70enmtFL6qVBLqWUx9Xns8ytvpjc",
+            authDomain: "tuckntogs-db.firebaseapp.com",
+            projectId: "tuckntogs-db",
+            storageBucket: "tuckntogs-db.firebasestorage.app",
+            messagingSenderId: "2981697712",
+            appId: "1:2981697712:web:fb3f5ccda9be4a1f03c375",
+            measurementId: "G-148HYYPRCJ"
+        };
+
+        // =========================================================
+        // LIVE RENDER AUTOMATED BACKEND PAYMENT API URL
+        // =========================================================
+        const BACKEND_URL = "https://tuckntogs-backend.onrender.com/create-order"; 
+        // =========================================================
+
+        const ADMIN_PIN = "1234";
+
+        let app, db, auth;
+        let currentUser = null;
+        let isCustomerLoggedIn = false; 
+        let isAdminLoggedIn = false;
+        let confirmationResult = null; 
+
+        let globalProducts = [];
+        let globalCategories = [];
+        let globalOrders = [];
+        let currentFilterCategory = 'All';
+
+        // Preloaded Static Category list used during fallback database initialization
+        const initialCategories = [
+            "Wallets and Combos", "Pens & Pencils", "Cutouts", "Collage", "Photo Frames", 
+            "Clocks", "Pen Stands", "Organizers", "Corporate Gifts", "T-Shirts & Hoodies", 
+            "Pillows", "Keychains", "Bottles", "Mugs", "LED Frames", "Acrylic Items", 
+            "Fridge Magnets", "Birthday Gifts", "Anniversary Gifts", "New Born Gifts", 
+            "Gifts for Kids", "Promotional Gifts", "Raksha Bandhan", "Diwali Gifts", "Miscellaneous Gift Items"
+        ];
+
+        // Custom Global Error Capture to catch runtime breaks instantly
+        window.addEventListener('error', (event) => {
+            const ind = document.getElementById('diagStatusIndicator');
+            const txt = document.getElementById('diagStatusText');
+            if (ind && txt) {
+                ind.classList.replace('bg-yellow-500', 'bg-red-500');
+                ind.classList.remove('animate-pulse');
+                txt.innerHTML = `Critical Code Break: ${event.message} at line ${event.lineno}`;
+                txt.classList.add('text-red-400');
+            }
+        });
+
+        // Main initialization entry block
+        async function authenticate() {
+            updateDiagnosticUI('diagStatusText', 'Handshaking with database servers...', 'yellow');
+            
+            try {
+                app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+                
+                updateDiagnosticUI('diagDbStatus', 'Firestore Attached', 'green');
+            } catch (err) {
+                console.error("Firebase Init Fail", err);
+                updateDiagnosticUI('diagDbStatus', 'Disconnected (Check Key Setup)', 'red');
+                updateDiagnosticUI('diagStatusText', `Firebase Error: Ensure configurations match project settings.`, 'red');
+                return;
+            }
+
+            try {
+                // Trigger anonymous authentication automatically for free secure customer routing
+                await signInAnonymously(auth);
+                updateDiagnosticUI('diagAuthStatus', 'Active (Secure)', 'green');
+            } catch (error) {
+                console.error("Authentication Error", error);
+                updateDiagnosticUI('diagAuthStatus', 'Blocked (Auth Disabled)', 'red');
+                showDiagnosticInstructions("Auth Disabled");
+            }
+
+            // Verify Render API status
+            verifyRenderGatewayStatus();
+            
+            // Set up real-time live synchronization channels
+            setupRealtimeListeners();
+        }
+
+        async function verifyRenderGatewayStatus() {
+            try {
+                const response = await fetch(BACKEND_URL.replace('/create-order', ''), { method: 'GET' }).catch(() => null);
+                if (response) {
+                    updateDiagnosticUI('diagPaymentStatus', 'Online', 'green');
+                } else {
+                    updateDiagnosticUI('diagPaymentStatus', 'Sleep Mode (Auto-wake on checkout)', 'yellow');
+                }
+            } catch (e) {
+                updateDiagnosticUI('diagPaymentStatus', 'Offline (Check Render URL)', 'red');
+            }
+        }
+
+        function updateDiagnosticUI(elementId, text, color) {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+            el.innerText = text;
+            el.className = color === 'green' ? 'text-green-400 font-bold' : color === 'red' ? 'text-red-500 font-bold' : 'text-yellow-500 font-bold animate-pulse';
+            
+            // Adjust master header status based on components
+            if (elementId === 'diagDbStatus' && color === 'green') {
+                const ind = document.getElementById('diagStatusIndicator');
+                const masterTxt = document.getElementById('diagStatusText');
+                if (ind && masterTxt) {
+                    ind.className = 'w-2.5 h-2.5 rounded-full bg-green-500';
+                    masterTxt.innerText = "System Status: Online & Operational";
+                }
+            }
+        }
+
+        function showDiagnosticInstructions(errorType) {
+            const container = document.getElementById('productList');
+            if (!container) return;
+            
+            if (errorType === "Auth Disabled") {
+                container.innerHTML = `
+                    <div class="col-span-full bg-red-50 border border-red-200 rounded-2xl p-6 text-left shadow-sm">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-red-100 flex items-center justify-center text-red-600 text-2xl flex-shrink-0">
+                                <i class="fa-solid fa-triangle-exclamation"></i>
+                            </div>
+                            <div class="space-y-2">
+                                <h3 class="font-bold text-red-900 text-lg">Firebase Anonymous Authentication is turned off</h3>
+                                <p class="text-sm text-red-700 leading-relaxed">Your app is refusing connections because Anonymous login isn't activated in your Google dashboard.</p>
+                                <div class="bg-white rounded-xl p-4 border border-red-100 text-slate-700 text-sm mt-3 space-y-2 leading-relaxed">
+                                    <p class="font-semibold text-slate-900">How to Fix This in 30 Seconds:</p>
+                                    <ol class="list-decimal pl-5 space-y-1 text-xs text-slate-600">
+                                        <li>Open your <b><a href="https://console.firebase.google.com" target="_blank" class="text-blue-600 underline">Firebase Console</a></b>.</li>
+                                        <li>On the left menu, select <b>Build > Authentication</b>.</li>
+                                        <li>Navigate to the <b>Sign-in method</b> tab at the top.</li>
+                                        <li>Click on <b>Anonymous</b>, click the switch toggle to <b>Enable</b>, and click <b>Save</b>.</li>
+                                        <li>Refresh this website page.</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function setupRealtimeListeners() {
+            // Firestore Live Listener: Categories collection
+            const catRef = collection(db, 'categories');
+            onSnapshot(catRef, (snapshot) => {
+                let cats = [];
+                snapshot.forEach(doc => cats.push({ id: doc.id, ...doc.data() }));
+                
+                // If cloud database is empty, seed initial category catalog automatically
+                if (cats.length === 0) {
+                    seedDefaultCategories();
+                    return; 
+                }
+                
+                globalCategories = cats.sort((a,b) => a.name.localeCompare(b.name));
+                updateUIAfterDataLoad();
+            }, (err) => {
+                console.error("Firestore Category Sync Fail", err);
+                if (err.code === "permission-denied") {
+                    const list = document.getElementById('productList');
+                    if(list) {
+                        list.innerHTML = `
+                            <div class="col-span-full bg-red-50 border border-red-200 rounded-2xl p-6 text-left shadow-sm">
+                                <h3 class="font-bold text-red-900 text-lg mb-2">Firestore Security Rules Blocking Access</h3>
+                                <p class="text-sm text-red-700 mb-4">Your Cloud Firestore database is locked. You must open security permissions so your code can read and write data.</p>
+                                <div class="bg-white p-4 rounded-xl border text-xs font-mono text-slate-800">
+                                    Go to Firebase console > Firestore Database > Rules tab, paste rules to <strong>allow read, write: if true;</strong> and click Publish!
+                                </div>
+                            </div>
+                        `;
+                    }
+                }
+            });
+
+            // Firestore Live Listener: Products collection
+            const prodRef = collection(db, 'products');
+            onSnapshot(prodRef, (snapshot) => {
+                let prods = [];
+                snapshot.forEach(doc => prods.push({ id: doc.id, ...doc.data() }));
+                
+                // Keep newest entries at the very top of catalog
+                globalProducts = prods.sort((a, b) => {
+                    const tA = a.timestamp?.toMillis ? a.timestamp.toMillis() : (a.timestamp || 0);
+                    const tB = b.timestamp?.toMillis ? b.timestamp.toMillis() : (b.timestamp || 0);
+                    return tB - tA;
+                });
+                
+                updateUIAfterDataLoad();
+                if (isAdminLoggedIn) renderAdminProducts();
+            }, (err) => {
+                console.error("Firestore Product Sync Fail", err);
+            });
+        }
+
+        async function seedDefaultCategories() {
+            try {
+                const catRef = collection(db, 'categories');
+                for (let catName of initialCategories) {
+                    await addDoc(catRef, { name: catName });
+                }
+            } catch(e) { 
+                console.error("Initial data database writing blocked", e); 
+            }
+        }
+
+        function updateUIAfterDataLoad() {
+            renderStoreCategories();
+            renderProducts();
+            if (isAdminLoggedIn) {
+                renderAdminCategories();
+                populateCategorySelect();
+            }
+        }
+
+        function renderStoreCategories() {
+            const container = document.getElementById('categoryFilters');
+            if(!container) return;
+            container.innerHTML = `
+                <button onclick="filterProducts('All')" class="category-btn ${currentFilterCategory==='All' ? 'bg-slate-800 text-white' : 'bg-slate-200 text-slate-700 hover:bg-slate-300'} px-4 py-1.5 rounded-full text-sm font-medium transition-colors whitespace-nowrap">All</button>
+            `;
+            
+            globalCategories.forEach(cat => {
+                const isActive = currentFilterCategory === cat.name;
+                const btnClasses = isActive ? 'bg-slate-800 text-white' : 'bg-slate-200 text-slate-700 hover:bg-slate-300';
+                container.innerHTML += `
+                    <button onclick="filterProducts('${cat.name.replace(/'/g, "\\'")}')" class="category-btn ${btnClasses} px-4 py-1.5 rounded-full text-sm font-medium transition-colors whitespace-nowrap">${cat.name}</button>
+                `;
+            });
+        }
+
+        window.filterProducts = (catName) => {
+            currentFilterCategory = catName;
+            renderStoreCategories(); 
+            renderProducts();
+        }
+
+        function renderProducts() {
+            const list = document.getElementById('productList');
+            if(!list) return;
+            list.innerHTML = '';
+            
+            const filteredProducts = currentFilterCategory === 'All' 
+                ? globalProducts 
+                : globalProducts.filter(p => p.category === currentFilterCategory);
+
+            if (filteredProducts.length === 0) {
+                list.innerHTML = '<div class="col-span-full text-center text-slate-500 py-12"><i class="fa-solid fa-box-open text-4xl mb-3 text-slate-300 block"></i> No catalog products found in this category. Use the Admin Dashboard to add products!</div>';
+                return;
+            }
+
+            filteredProducts.forEach(p => {
+                const card = document.createElement('div');
+                card.className = 'product-card bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-200 flex flex-col h-full text-left';
+                card.innerHTML = `
+                    <div class="h-48 overflow-hidden relative bg-slate-100">
+                        <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                        <div class="absolute top-3 right-3 bg-white/95 backdrop-blur px-3 py-1 rounded-lg text-sm font-bold text-slate-800 shadow">
+                            ₹${Number(p.price).toFixed(2)}
+                        </div>
+                    </div>
+                    <div class="p-5 flex-1 flex flex-col">
+                        <h3 class="font-bold text-lg text-slate-800 leading-tight mb-1">${p.name}</h3>
+                        <p class="text-xs text-blue-600 font-semibold mb-2 uppercase tracking-wider">${p.category}</p>
+                        <p class="text-slate-500 text-sm mb-5 flex-1 line-clamp-2">${p.desc}</p>
+                        
+                        <div class="flex gap-2 mb-4 text-xs text-slate-500 font-medium bg-slate-50 p-2 rounded-lg">
+                            ${p.reqPhotos > 0 ? `<span><i class="fa-regular fa-image mr-1"></i> ${p.reqPhotos} Photo${p.reqPhotos>1?'s':''}</span>` : ''}
+                            ${p.reqText ? `<span><i class="fa-solid fa-font mr-1"></i> Engraving text</span>` : ''}
+                            ${p.reqPhotos === 0 && !p.reqText ? `<span><i class="fa-solid fa-check mr-1"></i> Direct Purchase</span>` : ''}
+                        </div>
+
+                        <button onclick="openOrderModal('${p.id}')" class="w-full bg-slate-900 hover:bg-blue-600 text-white font-medium py-2.5 rounded-xl transition-colors shadow-sm flex items-center justify-center gap-2 mt-auto">
+                            Customize & Buy
+                        </button>
+                    </div>
+                `;
+                list.appendChild(card);
+            });
+        }
+
+        window.openOrderModal = (productId) => {
+            if (!isCustomerLoggedIn && !isAdminLoggedIn) {
+                openLoginModal();
+                showToast("Please login with mobile OTP to customize your item.", "error");
+                return;
+            }
+
+            const product = globalProducts.find(p => p.id === productId);
+            if (!product) return;
+
+            document.getElementById('selectedProductId').value = product.id;
+            document.getElementById('selectedProductName').value = product.name;
+            document.getElementById('modalProductName').innerText = product.name;
+            document.getElementById('modalProductPrice').innerText = `₹${Number(product.price).toFixed(2)}`;
+            document.getElementById('modalProductDesc').innerText = product.desc;
+            document.getElementById('modalProductImage').src = product.image;
+
+            document.getElementById('orderForm').reset();
+            
+            const uploadContainer = document.getElementById('dynamicImageUploads');
+            uploadContainer.innerHTML = '';
+            
+            if (product.reqPhotos > 0) {
+                uploadContainer.innerHTML = `<label class="block text-sm font-medium text-slate-700 mb-2">Upload Required Design Photos (${product.reqPhotos}) <span class="text-red-500">*</span></label>`;
+                
+                const grid = document.createElement('div');
+                grid.className = 'grid grid-cols-2 gap-3';
+                
+                for(let i=0; i<product.reqPhotos; i++) {
+                    grid.innerHTML += `
+                        <div class="relative border-2 border-slate-300 border-dashed rounded-xl p-4 text-center hover:border-blue-500 transition-colors cursor-pointer bg-slate-50 flex flex-col items-center justify-center h-28 overflow-hidden group" onclick="document.getElementById('upload_${i}').click()">
+                            <i class="fa-solid fa-cloud-arrow-up text-xl text-slate-400 group-hover:text-blue-500 mb-1"></i>
+                            <span class="text-xs font-medium text-slate-600">Graphics ${i+1}</span>
+                            
+                            <img id="preview_${i}" class="absolute inset-0 w-full h-full object-cover hidden z-10">
+                            
+                            <input type="file" id="upload_${i}" accept="image/*" class="sr-only" onchange="handleImageFileSelect(event, ${i})">
+                            <input type="hidden" id="base64_${i}" class="customer-image-data" required>
+                        </div>
+                    `;
+                }
+                uploadContainer.appendChild(grid);
+            }
+
+            const textReqDiv = document.getElementById('dynamicTextRequirement');
+            const specialInst = document.getElementById('specialInstructions');
+            const star = document.getElementById('textRequiredStar');
+            
+            if (product.reqText) {
+                specialInst.required = true;
+                star.classList.remove('hidden');
+                specialInst.placeholder = "Specify the exact engraving text / names here...";
+            } else {
+                specialInst.required = false;
+                star.classList.add('hidden');
+                specialInst.placeholder = "Enter custom print instructions or shipping details... (Optional)";
+            }
+
+            document.getElementById('orderModal').classList.remove('hidden');
+        };
+
+        window.handleImageFileSelect = async (event, index) => {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const base64Str = await compressImage(file, 600, 600, 0.7);
+            document.getElementById(`base64_${index}`).value = base64Str;
+            
+            const preview = document.getElementById(`preview_${index}`);
+            preview.src = base64Str;
+            preview.classList.remove('hidden');
+        };
+
+        // Phone Login OTP trigger
+        window.openLoginModal = () => document.getElementById('loginModal').classList.remove('hidden');
+        window.closeLoginModal = () => {
+            document.getElementById('loginModal').classList.add('hidden');
+            resetLogin();
+        };
+        
+        window.resetLogin = () => {
+            document.getElementById('phoneSection').classList.remove('hidden');
+            document.getElementById('otpSection').classList.add('hidden');
+            document.getElementById('loginOtp').value = '';
+        }
+
+        window.sendOTP = async () => {
+            const phoneStr = document.getElementById('loginPhone').value.trim();
+            if (phoneStr.length < 10) return showToast("Please input a valid 10-digit number", "error");
+            
+            const phoneNumber = "+91" + phoneStr;
+            const btn = document.getElementById('btnSendOtp');
+            btn.disabled = true;
+            btn.innerHTML = '<div class="loader mx-auto" style="width:20px;height:20px;border-width:2px;border-top-color:white;"></div> Sending...';
+            
+            try {
+                if (!window.recaptchaVerifier) {
+                    window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', { 'size': 'invisible' });
+                }
+                confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, window.recaptchaVerifier);
+                
+                showToast("Verification code dispatched!", "success");
+                document.getElementById('phoneSection').classList.add('hidden');
+                document.getElementById('otpSection').classList.remove('hidden');
+            } catch (error) {
+                console.error("Firebase SMS dispatch crash", error);
+                showToast("SMS dispatch throttled or failed. Check Firebase console authentication limits.", "error");
+                if (window.recaptchaVerifier) { window.recaptchaVerifier.clear(); window.recaptchaVerifier = null; }
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'Send Verification OTP';
+            }
+        };
+
+        window.verifyOTP = async () => {
+            const otp = document.getElementById('loginOtp').value.trim();
+            if (otp.length !== 6) return showToast("Enter 6-digit confirmation PIN", "error");
+
+            const btn = document.getElementById('btnVerifyOtp');
+            btn.disabled = true;
+            btn.innerHTML = '<div class="loader mx-auto" style="width:20px;height:20px;border-width:2px;border-top-color:white;"></div> Registering...';
+
+            try {
+                const result = await confirmationResult.confirm(otp);
+                currentUser = result.user;
+                isCustomerLoggedIn = true;
+                
+                document.getElementById('nav-customer-login').classList.add('hidden');
+                const profileDiv = document.getElementById('nav-customer-profile');
+                profileDiv.classList.remove('hidden');
+                profileDiv.classList.add('flex');
+                document.getElementById('customer-phone-display').innerText = currentUser.phoneNumber;
+                
+                closeLoginModal();
+                showToast("Identity verified successfully!", "success");
+            } catch (error) {
+                console.error("Invalid verification", error);
+                showToast("Verification failed. Invalid OTP code.", "error");
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'Verify & Access';
+            }
+        };
+
+        window.logoutCustomer = async () => {
+            await signOut(auth);
+            isCustomerLoggedIn = false;
+            currentUser = null;
+            document.getElementById('nav-customer-login').classList.remove('hidden');
+            document.getElementById('nav-customer-profile').classList.add('hidden');
+            document.getElementById('nav-customer-profile').classList.remove('flex');
+            showToast("Logged out successfully.");
+        };
+
+        window.closeModal = () => document.getElementById('orderModal').classList.add('hidden');
+
+        // Cashfree automated client checkout initialization
+        const cashfreeInstance = Cashfree({ mode: "sandbox" }); 
+
+        window.submitOrder = async () => {
+            const form = document.getElementById('orderForm');
+            if (!form.checkValidity()) return form.reportValidity();
+
+            const btn = document.getElementById('submitOrderBtn');
+            const loader = document.getElementById('submitLoader');
+            const btnText = document.getElementById('submitOrderBtnText');
+            
+            btn.disabled = true; 
+            loader.classList.remove('hidden');
+            btnText.innerText = "Processing...";
+
+            try {
+                let customerImages = [];
+                const product = globalProducts.find(p => p.id === document.getElementById('selectedProductId').value);
+                
+                if (product && product.reqPhotos > 0) {
+                    for(let i=0; i<product.reqPhotos; i++) {
+                        const b64 = document.getElementById(`base64_${i}`).value;
+                        if (!b64) throw new Error(`Design Asset ${i+1} is missing.`);
+                        customerImages.push(b64);
+                    }
+                }
+
+                const detailedAddress = {
+                    line1: document.getElementById('addrLine1').value,
+                    line2: document.getElementById('addrLine2').value,
+                    city: document.getElementById('addrCity').value,
+                    state: document.getElementById('addrState').value,
+                    pincode: document.getElementById('addrPincode').value
+                };
+
+                const orderData = {
+                    productId: document.getElementById('selectedProductId').value,
+                    productName: document.getElementById('selectedProductName').value,
+                    customerName: document.getElementById('customerName').value,
+                    customerPhone: currentUser ? currentUser.phoneNumber : "Guest", 
+                    customerAltPhone: document.getElementById('customerAltPhone').value || "",
+                    address: detailedAddress,
+                    specialInstructions: document.getElementById('specialInstructions').value,
+                    customerImages: customerImages,
+                    paymentStatus: 'pending',
+                    status: 'pending',
+                    timestamp: serverTimestamp(),
+                    userId: currentUser ? currentUser.uid : 'anonymous'
+                };
+
+                // Add document placeholder inside Firestore
+                const ordersRef = collection(db, 'orders');
+                const newOrder = await addDoc(ordersRef, orderData);
+                const orderId = newOrder.id;
+
+                showToast("Handshaking Secure Payment...", "success");
+                
+                // Wake up warning text display on button
+                btnText.innerText = "Securing Gateway Connect...";
+
+                // Contacting automated Render API
+                const response = await fetch(BACKEND_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        orderId: orderId, 
+                        amount: product.price, 
+                        phone: orderData.customerPhone || "9999999999",
+                        name: orderData.customerName
+                    })
+                });
+                
+                const sessionData = await response.json();
+                
+                if (!sessionData.payment_session_id) {
+                    throw new Error("Unable to initialize Cashfree SDK session. Please ensure your Render settings include valid API keys.");
+                }
+
+                let checkoutOptions = {
+                    paymentSessionId: sessionData.payment_session_id,
+                    redirectTarget: "_modal" 
+                };
+                
+                cashfreeInstance.checkout(checkoutOptions).then(async (result) => {
+                    if (result.error) {
+                        showToast(result.error.message || "Checkout canceled.", "error");
+                    } else if (result.paymentDetails) {
+                        // Securely update payment and order status dynamically
+                        await updateDoc(doc(db, 'orders', orderId), { 
+                            paymentStatus: 'paid',
+                            status: 'pending' 
+                        });
+                        showToast("Payment Complete! Order Confirmed.", "success");
+                        closeModal();
+                    }
+                });
+
+            } catch (error) {
+                console.error(error);
+                showToast(error.message || "Failed to finalize order.", "error");
+            } finally {
+                btn.disabled = false; 
+                loader.classList.add('hidden');
+                btnText.innerText = "Pay & Place Order";
+            }
+        };
+
+        window.openAdminPinModal = () => {
+            if (isAdminLoggedIn) { switchView('dashboard'); return; }
+            document.getElementById('adminPinInput').value = '';
+            document.getElementById('adminPinModal').classList.remove('hidden');
+            document.getElementById('adminPinInput').focus();
+        };
+
+        window.closeAdminPinModal = () => document.getElementById('adminPinModal').classList.add('hidden');
+
+        window.submitAdminPin = () => {
+            const pin = document.getElementById('adminPinInput').value;
+            if (pin === ADMIN_PIN) {
+                isAdminLoggedIn = true;
+                document.getElementById('nav-dashboard').classList.remove('hidden');
+                document.getElementById('nav-admin-login').innerText = "Admin Console Connected";
+                document.getElementById('nav-admin-login').className = "text-green-700 bg-green-50 font-medium px-3 py-2 rounded-lg border border-green-200 text-sm";
+                
+                closeAdminPinModal();
+                switchView('dashboard');
+                switchAdminTab('orders');
+                fetchOrders();
+                populateCategorySelect();
+                renderAdminProducts();
+                renderAdminCategories();
+            } else {
+                showToast("Invalid admin passcode.", "error");
+            }
+        };
+
+        window.triggerCustomConfirm = (title, message, onProceed) => {
+            const modal = document.getElementById('customConfirmModal');
+            document.getElementById('confirmTitle').innerText = title;
+            document.getElementById('confirmMessage').innerText = message;
+            modal.classList.remove('hidden');
+
+            const proceedBtn = document.getElementById('confirmProceedBtn');
+            const cancelBtn = document.getElementById('confirmCancelBtn');
+
+            const newProceed = proceedBtn.cloneNode(true);
+            const newCancel = cancelBtn.cloneNode(true);
+            proceedBtn.parentNode.replaceChild(newProceed, proceedBtn);
+            cancelBtn.parentNode.replaceChild(newCancel, cancelBtn);
+
+            newProceed.addEventListener('click', () => {
+                modal.classList.add('hidden');
+                onProceed();
+            });
+
+            newCancel.addEventListener('click', () => {
+                modal.classList.add('hidden');
+            });
+        };
+
+        window.logoutAdmin = () => {
+            isAdminLoggedIn = false;
+            document.getElementById('nav-dashboard').classList.add('hidden');
+            document.getElementById('nav-admin-login').innerText = "Admin";
+            document.getElementById('nav-admin-login').className = "text-slate-500 font-medium px-3 py-2 rounded-lg hover:bg-slate-100 transition-colors border border-slate-200 text-sm";
+            switchView('store');
+        };
+
+        window.switchAdminTab = (tabName) => {
+            ['orders', 'products', 'categories'].forEach(t => {
+                document.getElementById(`tab-${t}`).classList.remove('active');
+                document.getElementById(`content-${t}`).classList.add('hidden');
+            });
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+            document.getElementById(`content-${tabName}`).classList.remove('hidden');
+        };
+
+        let ordersListener = null;
+        window.fetchOrders = async () => {
+            if (ordersListener) ordersListener(); 
+            
+            const tbody = document.getElementById('ordersTableBody');
+            const ordersRef = collection(db, 'orders');
+            
+            ordersListener = onSnapshot(ordersRef, (snapshot) => {
+                let orders = [];
+                snapshot.forEach(doc => orders.push({ id: doc.id, ...doc.data() }));
+                
+                orders.sort((a, b) => {
+                    const tA = a.timestamp?.toMillis ? a.timestamp.toMillis() : 0;
+                    const tB = b.timestamp?.toMillis ? b.timestamp.toMillis() : 0;
+                    return tB - tA;
+                });
+
+                globalOrders = orders;
+                renderOrdersTable();
+            }, (err) => { 
+                console.error(err); 
+                tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-red-500">Cloud communication blocked. Verify Firebase access security rules.</td></tr>`; 
+            });
+        };
+
+        function renderOrdersTable() {
+            const tbody = document.getElementById('ordersTableBody');
+            if(!tbody) return;
+            tbody.innerHTML = '';
+            updateStats();
+
+            if (globalOrders.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="p-8 text-center text-slate-500">No custom orders found.</td></tr>';
+                return;
+            }
+
+            globalOrders.forEach((order, index) => {
+                const date = order.timestamp?.toMillis ? new Date(order.timestamp.toMillis()).toLocaleDateString() : 'Crafting';
+                const statusColors = { 'pending': 'bg-orange-100 text-orange-700', 'completed': 'bg-green-100 text-green-700' };
+                
+                let addrStr = "None specified";
+                if (typeof order.address === 'object') {
+                    addrStr = `${order.address.line1}, ${order.address.line2 ? order.address.line2+', ' : ''}${order.address.city}, ${order.address.state} - ${order.address.pincode}`;
+                }
+
+                let photosHtml = '';
+                if (order.customerImages && order.customerImages.length > 0) {
+                    photosHtml = `<div class="flex gap-1 flex-wrap cursor-pointer" onclick="openImageViewer(${index})">`;
+                    order.customerImages.forEach((img, i) => {
+                        if (i < 2) photosHtml += `<img src="${img}" class="w-10 h-10 object-cover rounded border border-slate-200">`;
+                    });
+                    if (order.customerImages.length > 2) photosHtml += `<div class="w-10 h-10 bg-slate-100 rounded border border-slate-200 flex items-center justify-center text-xs text-slate-500 font-medium">+${order.customerImages.length - 2}</div>`;
+                    photosHtml += `</div><div class="text-xs text-blue-600 mt-1 hover:underline cursor-pointer" onclick="openImageViewer(${index})">Open Gallery</div>`;
+                } else {
+                    photosHtml = '<span class="text-slate-400 italic text-xs">Direct (no custom image)</span>';
+                }
+
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-50 group">
+                        <td class="p-4 align-top">
+                            <div class="font-bold text-slate-800">${order.productName}</div>
+                            <div class="text-xs text-slate-400 mt-1">${date}</div>
+                            ${order.specialInstructions ? `<div class="mt-2 text-xs bg-blue-50 p-2 rounded text-blue-800 break-words max-w-xs"><b>Custom Text:</b> ${order.specialInstructions}</div>` : ''}
+                        </td>
+                        <td class="p-4 align-top">
+                            <div class="font-medium text-slate-800">${order.customerName}</div>
+                            <div class="text-xs text-slate-600 font-medium">${order.customerPhone} ${order.customerAltPhone ? `/ ${order.customerAltPhone}` : ''}</div>
+                            <div class="text-xs text-slate-500 mt-1 max-w-[200px] break-words leading-relaxed">${addrStr}</div>
+                        </td>
+                        <td class="p-4 align-top">
+                            <span class="px-2 py-1 rounded text-xs font-semibold ${order.paymentStatus === 'paid' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'} capitalize">
+                                ${order.paymentStatus || 'pending'}
+                            </span>
+                        </td>
+                        <td class="p-4 align-top">${photosHtml}</td>
+                        <td class="p-4 align-top"><span class="px-2 py-1 rounded text-xs font-semibold ${statusColors[order.status] || 'bg-slate-100'} capitalize">${order.status}</span></td>
+                        <td class="p-4 align-top text-right space-y-2">
+                            ${order.status === 'pending' ? `<button onclick="updateOrderStatus('${order.id}', 'completed')" class="w-full bg-green-500 text-white px-2 py-1 rounded text-xs shadow-sm font-semibold">Dispatch</button>` : ''}
+                            <button onclick="deleteOrder('${order.id}')" class="w-full bg-red-50 text-red-500 border border-red-200 px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        window.updateOrderStatus = async (id, status) => {
+            await updateDoc(doc(db, 'orders', id), { status });
+            showToast("Order status successfully updated!");
+        };
+
+        window.deleteOrder = (id) => {
+            triggerCustomConfirm("Remove Order Entry?", "Do you want to permanently delete this customer order card from the database?", async () => {
+                await deleteDoc(doc(db, 'orders', id));
+                showToast("Order entry deleted.");
+            });
+        };
+
+        function updateStats() {
+            const p = globalOrders.filter(o => o.status === 'pending').length;
+            document.getElementById('statTotal').innerText = globalOrders.length;
+            document.getElementById('statPending').innerText = p;
+            document.getElementById('statCompleted').innerText = globalOrders.filter(o => o.status === 'completed').length;
+            const badge = document.getElementById('orderBadge');
+            if (badge) {
+                badge.innerText = p; 
+                badge.classList.toggle('hidden', p === 0);
+            }
+        }
+
+        let viewerImages = [];
+        let viewerIndex = 0;
+        
+        window.openImageViewer = (orderIndex) => {
+            const order = globalOrders[orderIndex];
+            if (!order || !order.customerImages || order.customerImages.length === 0) return;
+            viewerImages = order.customerImages;
+            viewerIndex = 0;
+            updateViewerUI();
+            document.getElementById('imageViewerModal').classList.remove('hidden');
+        };
+
+        function updateViewerUI() {
+            document.getElementById('fullSizeImage').src = viewerImages[viewerIndex];
+            document.getElementById('imageCounter').innerText = `${viewerIndex + 1} / ${viewerImages.length}`;
+        }
+
+        window.nextImage = () => { if (viewerIndex < viewerImages.length - 1) { viewerIndex++; updateViewerUI(); } };
+        window.prevImage = () => { if (viewerIndex > 0) { viewerIndex--; updateViewerUI(); } };
+        window.closeImageViewer = () => document.getElementById('imageViewerModal').classList.add('hidden');
+        
+        window.downloadCurrentImage = () => {
+            const a = document.createElement("a");
+            a.href = viewerImages[viewerIndex];
+            a.download = `tuckntogs_upload_${Date.now()}.jpg`;
+            a.click();
+        };
+
+        document.getElementById('addProdImage').addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const base64 = await compressImage(file, 600, 600, 0.8); 
+            document.getElementById('addProdImageBase64').value = base64;
+            const preview = document.getElementById('addProdImagePreview');
+            preview.style.backgroundImage = `url(${base64})`;
+            preview.classList.remove('hidden');
+        });
+
+        window.submitNewProduct = async () => {
+            const form = document.getElementById('addProductForm');
+            if (!form.checkValidity()) return form.reportValidity();
+            
+            const imageBase64 = document.getElementById('addProdImageBase64').value;
+            if (!imageBase64) return showToast("Please configure a display image.", "error");
+
+            const newProd = {
+                name: document.getElementById('addProdName').value,
+                price: parseFloat(document.getElementById('addProdPrice').value),
+                category: document.getElementById('addProdCategory').value,
+                desc: document.getElementById('addProdDesc').value,
+                reqPhotos: parseInt(document.getElementById('addProdReqPhotos').value) || 0,
+                reqText: document.getElementById('addProdReqText').checked,
+                image: imageBase64,
+                timestamp: serverTimestamp()
+            };
+
+            const btn = document.getElementById('saveProdBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<div class="loader" style="width:16px;height:16px;border-width:2px;border-top-color:white;"></div> Adding...';
+            
+            try {
+                await addDoc(collection(db, 'products'), newProd);
+                showToast("Product saved successfully!", "success");
+                form.reset();
+                document.getElementById('addProdImageBase64').value = '';
+                document.getElementById('addProdImagePreview').classList.add('hidden');
+            } catch(e) {
+                console.error(e);
+                showToast("Save listing failure.", "error");
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa-solid fa-plus"></i> Save & Append to Catalog';
+            }
+        };
+
+        function renderAdminProducts() {
+            const list = document.getElementById('adminProductList');
+            if(!list) return;
+            list.innerHTML = '';
+            globalProducts.forEach(p => {
+                list.innerHTML += `
+                    <div class="border border-slate-200 rounded-xl overflow-hidden flex flex-col bg-white">
+                        <img src="${p.image}" class="w-full h-32 object-cover">
+                        <div class="p-3 flex-1 flex flex-col">
+                            <h4 class="font-bold text-sm text-slate-800 line-clamp-1">${p.name}</h4>
+                            <p class="text-xs text-blue-600 mb-2">₹${p.price} | ${p.category}</p>
+                            <button onclick="deleteProduct('${p.id}')" class="w-full bg-red-50 text-red-600 text-xs py-1.5 rounded hover:bg-red-100 mt-auto"><i class="fa-solid fa-trash"></i> Remove</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        window.deleteProduct = (id) => {
+            triggerCustomConfirm("Remove Item?", "Are you sure you want to permanently delete this product from the customer storefront catalog?", async () => {
+                await deleteDoc(doc(db, 'products', id));
+                showToast("Product deleted.");
+            });
+        };
+
+        window.addCategory = async () => {
+            const input = document.getElementById('newCategoryName');
+            const name = input.value.trim();
+            if (!name) return;
+            try {
+                await addDoc(collection(db, 'categories'), { name });
+                input.value = '';
+                showToast("Category created!", "success");
+            } catch(e) { showToast("Category creation crash.", "error"); }
+        };
+
+        function renderAdminCategories() {
+            const list = document.getElementById('adminCategoryList');
+            if(!list) return;
+            list.innerHTML = '';
+            globalCategories.forEach(c => {
+                list.innerHTML += `
+                    <li class="flex justify-between items-center p-3 bg-white">
+                        <span class="font-medium text-slate-700">${c.name}</span>
+                        <button onclick="deleteCategory('${c.id}')" class="text-red-400 hover:text-red-600 p-2"><i class="fa-solid fa-trash"></i></button>
+                    </li>
+                `;
+            });
+        }
+
+        window.deleteCategory = (id) => {
+            triggerCustomConfirm("Delete Category Route?", "Are you sure you want to delete this category? (Products already associated with it will remain online.)", async () => {
+                await deleteDoc(doc(db, 'categories', id));
+                showToast("Category removed.");
+            });
+        };
+
+        function populateCategorySelect() {
+            const select = document.getElementById('addProdCategory');
+            if(!select) return;
+            select.innerHTML = '<option value="">Select Catalog category route...</option>';
+            globalCategories.forEach(c => {
+                select.innerHTML += `<option value="${c.name}">${c.name}</option>`;
+            });
+        }
+
+        window.switchView = (viewName) => {
+            if (viewName === 'dashboard' && !isAdminLoggedIn) return openAdminPinModal();
+            ['store', 'dashboard'].forEach(v => {
+                const el = document.getElementById(`view-${v}`);
+                const nav = document.getElementById(`nav-${v}`);
+                if(el) el.classList.add('hidden');
+                if(nav) {
+                    nav.classList.replace('text-blue-600', 'text-slate-500');
+                    nav.classList.remove('bg-blue-50');
+                }
+            });
+            const selectedView = document.getElementById(`view-${viewName}`);
+            const selectedNav = document.getElementById(`nav-${viewName}`);
+            if(selectedView) selectedView.classList.remove('hidden');
+            if(selectedNav) {
+                selectedNav.classList.replace('text-slate-500', 'text-blue-600');
+                selectedNav.classList.add('bg-blue-50');
+            }
+        };
+
+        window.showToast = (msg, type = 'success') => {
+            const t = document.getElementById("toast");
+            if(!t) return;
+            t.innerText = msg; 
+            t.className = `show ${type}`;
+            setTimeout(() => { t.className = t.className.replace("show", ""); }, 3000);
+        };
+
+        // Built-in image compression canvas helper
+        async function compressImage(file, maxWidth = 800, maxHeight = 800, quality = 0.7) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.src = event.target.result;
+                    img.onload = () => {
+                        let width = img.width;
+                        let height = img.height;
+
+                        if (width > height) {
+                            if (width > maxWidth) {
+                                height = Math.round((height * maxWidth) / width);
+                                width = maxWidth;
+                            }
+                        } else {
+                            if (height > maxHeight) {
+                                width = Math.round((width * maxHeight) / height);
+                                height = maxHeight;
+                            }
+                        }
+
+                        const canvas = document.createElement('canvas');
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        resolve(canvas.toDataURL('image/jpeg', quality));
+                    };
+                };
+            });
+        }
+
+        window.onload = authenticate;
+
+    </script>
+</body>
+</html>
